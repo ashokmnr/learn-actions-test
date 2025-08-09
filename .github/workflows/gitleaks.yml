@@ -22,6 +22,6 @@ jobs:
       - name: Install GitLeaks
         run: |
           docker pull ghcr.io/gitleaks/gitleaks:latest
-          docker run -v ${{ github.workspace }}:/repoFiles ghcr.io/gitleaks/gitleaks:latest git --redact=100 /repoFiles
+          docker run -v ${{ github.workspace }}:/repoFiles ghcr.io/gitleaks/gitleaks:latest git --redact=100 -v /repoFiles
 
 
