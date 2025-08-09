@@ -1,13 +1,13 @@
 name: gitleaks
 on:
   pull_request:
-    branches:
-        - 'main'
-        - 'develop'
+    # branches:
+    #     - 'main'
+    #     - 'develop'
   push:
-    branches:
-        - 'main'
-        - 'develop'
+    # branches:
+    #     - 'main'
+    #     - 'develop'
   workflow_dispatch:
 
 jobs:
@@ -18,3 +18,10 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      
+      - name: Install GitLeaks
+        run: |
+          docker pull ghcr.io/gitleaks/gitleaks:latest
+          docker run -v ${github.workspace}:/repoFiles ghcr.io/gitleaks/gitleaks:latest git --redact=100 /repoFiles
+
+
