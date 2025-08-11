@@ -10,6 +10,9 @@ on:
     #     - 'develop'
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   scan:
     name: gitleaks
@@ -19,9 +22,14 @@ jobs:
         with:
           fetch-depth: 0
       
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13' 
+      
       - name: Install GitLeaks
         run: |
           docker pull ghcr.io/gitleaks/gitleaks:latest
-          docker run -v ${{ github.workspace }}:/repoFiles ghcr.io/gitleaks/gitleaks:latest git --redact=100 -v /repoFiles
+          docker run -v ${{ github.workspace }}:/repoFiles ghcr.io/gitleaks/gitleaks:latest git --redact=100 -v /repoFiles -f test.sarif
+          ls -lrt
 
 
