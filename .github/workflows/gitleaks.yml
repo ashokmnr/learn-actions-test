@@ -34,6 +34,7 @@ jobs:
           exitcode="$?"
           echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
           ls -lrt
+          cat ${{ github.workspace }}/results.md >$GITHUB_STEP_SUMMARY
           exit "$exitcode"
         #continue-on-error: true
 
