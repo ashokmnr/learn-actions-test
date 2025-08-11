@@ -28,9 +28,13 @@ jobs:
       
       - name: Install GitLeaks
         run: |
+          set +e
           docker pull ghcr.io/gitleaks/gitleaks:latest
           docker run -v ${{ github.workspace }}:/repoFiles ghcr.io/gitleaks/gitleaks:latest git --redact -v --exit-code=2 -f=sarif -r=results.sarif -l=debug /repoFiles
+          exitcode="$?"
+          echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
           ls -lrt
-        continue-on-error: true
+          exit "$exitcode"
+        #continue-on-error: true
 
 
