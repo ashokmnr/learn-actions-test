@@ -32,9 +32,9 @@ jobs:
           docker pull ghcr.io/gitleaks/gitleaks:latest
           docker run -v ${{ github.workspace }}:/repoFiles ghcr.io/gitleaks/gitleaks:latest git --redact -v --exit-code=2 -f=sarif -r=/repoFiles/results.sarif -l=debug /repoFiles
           exitcode="$?"
-          echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
+          echo "exitcode=$exitcode" >> $GITHUB_OUTPUT 
+          python3 .github/summary_scripts/githubSummary.py -exit_code $exitcode -repo_url ${{ github.server_url }}/${{ github.repository }}
           ls -lrt
-          python3 .github/summary_scripts/githubSummary.py -exit_code $exitcode -repo_url ${{ github.server_url }}
           cat ${{ github.workspace }}/results.md >$GITHUB_STEP_SUMMARY
           exit "$exitcode"
         #continue-on-error: true
