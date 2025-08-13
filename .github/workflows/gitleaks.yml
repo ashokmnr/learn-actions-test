@@ -26,7 +26,7 @@ jobs:
         with:
           python-version: '3.13' 
       
-      - name: Install GitLeaks test
+      - name: Install GitLeaks
         run: |
           set +e
           docker pull ghcr.io/gitleaks/gitleaks:latest
