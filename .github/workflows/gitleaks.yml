@@ -29,7 +29,7 @@ jobs:
         run: |
           set +e
           docker pull ghcr.io/gitleaks/gitleaks:latest
-          docker run -v ${{ github.workspace }}:/repoFiles ghcr.io/gitleaks/gitleaks:latest git --redact -v --exit-code=2 -f=sarif -r=/repoFiles/results.sarif -l=debug /repoFiles
+          docker run -v ${{ github.workspace }}:/repoFiles ghcr.io/gitleaks/gitleaks:latest git --redact -v --exit-code=2 -f=sarif -r=/repoFiles/results.sarif -l=debug --log-opts=-1 /repoFiles
           exitcode="$?"
           echo "exitcode=$exitcode" >> $GITHUB_OUTPUT 
           python3 .github/summary_scripts/githubSummary.py -exit_code $exitcode -repo_url ${{ github.server_url }}/${{ github.repository }}
