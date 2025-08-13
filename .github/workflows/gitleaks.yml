@@ -34,7 +34,7 @@ jobs:
           exitcode="$?"
           echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
           ls -lrt
-          python3 .github/summary_scripts/githubSummary.py
+          python3 .github/summary_scripts/githubSummary.py -exit_code $exitcode -repo_url ${{ github.server_url }}
           cat ${{ github.workspace }}/results.md >$GITHUB_STEP_SUMMARY
           exit "$exitcode"
         #continue-on-error: true
