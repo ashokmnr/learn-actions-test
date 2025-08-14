@@ -49,6 +49,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: |
           set +e
+          gh pr ls
           docker pull ghcr.io/gitleaks/gitleaks:latest
           docker run -v ${{ github.workspace }}:/gitrepoFiles ghcr.io/gitleaks/gitleaks:latest git --redact -v --exit-code=2 -f=sarif -r=/gitrepoFiles/results.sarif -l=debug --log-opts=--no-merges /gitrepoFiles
           exitcode="$?"
