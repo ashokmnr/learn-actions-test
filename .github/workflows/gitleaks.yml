@@ -31,8 +31,22 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Running Scan
+      - name: Running Scan Push
         if: github.event_name == 'push'
+        run: |
+          set +e
+          docker pull ghcr.io/gitleaks/gitleaks:latest
+          docker run -v ${{ github.workspace }}:/gitrepoFiles ghcr.io/gitleaks/gitleaks:latest git --redact -v --exit-code=2 -f=sarif -r=/gitrepoFiles/results.sarif -l=debug --log-opts=-1 /gitrepoFiles
+          exitcode="$?"
+          echo "exitcode=$exitcode" >> $GITHUB_OUTPUT 
+          python3 .github/summary_scripts/githubSummary.py -exit_code $exitcode -repo_url ${{ github.server_url }}/${{ github.repository }}
+          exitcode="$?"
+          echo "exitcode=$exitcode" >> $GITHUB_OUTPUT 
+          cat ${{ github.workspace }}/extracted_results.md >$GITHUB_STEP_SUMMARY
+          exit "$exitcode"
+      
+      - name: Running Scan Pull_request
+        if: github.event_name == 'pull_request'
         run: |
           set +e
           docker pull ghcr.io/gitleaks/gitleaks:latest
