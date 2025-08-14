@@ -31,7 +31,7 @@ jobs:
         with:
           python-version: '3.x' 
       
-      - name: Running Scan
+      - name: Running Scan Test
         run: |
           set +e
           docker pull ghcr.io/gitleaks/gitleaks:latest
