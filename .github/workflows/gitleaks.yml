@@ -47,7 +47,7 @@ jobs:
       
       - name: run cli
         run: | 
-          gh pr ls --json
+          gh pr ls --json mergeCommit
         env:
           GH_TOKEN: ${{ github.token }}
       - name: Running Scan Pull_request
