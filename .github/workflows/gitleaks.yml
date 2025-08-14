@@ -31,7 +31,7 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Running Scan Push
+      - name: Running Scan Push test
         if: github.event_name == 'push'
         run: |
           set +e
