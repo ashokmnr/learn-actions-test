@@ -46,7 +46,7 @@ def extract_sarif_results_to_markdown(sarif_file_path,url):
     md_content.append(md_separator)
 
     print("--- Extracting SARIF Results for Markdown ---")
-    print(url)
+    
     for result in results:
         rule_id = result.get('ruleId', 'N/A')
         fingerprints = result.get('partialFingerprints', {})
@@ -60,7 +60,6 @@ def extract_sarif_results_to_markdown(sarif_file_path,url):
         file_path = location.get('artifactLocation', {}).get('uri', 'N/A')
         start_line = location.get('region', {}).get('startLine', 'N/A')
         commitURL = "[{0}]({1}/commit/{2})".format(commitSha[0:7], url, commitSha)
-        #commitSha[0:7])
         secretURL = "[{0}]({1}/blob/{2}/{3}#L{4})".format("View Secret", url, commitSha, file_path, start_line)
         fileURL = "[{0}]({1}/blob/{2}/{3})".format(file_path,url,commitSha,file_path)
       
