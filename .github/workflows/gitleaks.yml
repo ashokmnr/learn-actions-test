@@ -48,7 +48,7 @@ jobs:
       - name: run cli
         run: | 
           gh pr ls --json potentialMergeCommit
-          gh pr list --json commits --jq '.[] | {first: .commits[0].oid'}
+          gh pr list --json commits --jq '.[] | {.commits[0].oid'}
           
         env:
           GH_TOKEN: ${{ github.token }}
