@@ -60,8 +60,7 @@ jobs:
           headRef=gh pr list --json commits --jq '.[] | .commits[-1].oid'
 
           docker pull ghcr.io/gitleaks/gitleaks:latest
-          docker run -v ${{ github.workspace }}:/gitrepoFiles ghcr.io/gitleaks/gitleaks:latest git --redact -v --exit-code=2 -f=sarif -r=/gitrepoFiles/results.sarif \
-            -l=debug --log-opts=--no-merges --first-parent $baseRef^..$headRef /gitrepoFiles
+          docker run -v ${{ github.workspace }}:/gitrepoFiles ghcr.io/gitleaks/gitleaks:latest git --redact -v --exit-code=2 -f=sarif -r=/gitrepoFiles/results.sarif -l=debug --log-opts=--no-merges --first-parent $baseRef^..$headRef /gitrepoFiles
           exitcode="$?"
           echo "exitcode=$exitcode" >> $GITHUB_OUTPUT 
           python3 .github/summary_scripts/githubSummary.py -exit_code $exitcode -repo_url ${{ github.server_url }}/${{ github.repository }}
