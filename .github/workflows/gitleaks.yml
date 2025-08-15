@@ -31,7 +31,7 @@ jobs:
         with:
           python-version: '3.x'
 
-      - name: Running Scan Push test
+      - name: Running Scan Push
         if: github.event_name == 'push'
         run: |
           set +e
@@ -44,13 +44,6 @@ jobs:
           echo "exitcode=$exitcode" >> $GITHUB_OUTPUT 
           cat ${{ github.workspace }}/extracted_results.md >$GITHUB_STEP_SUMMARY
           exit "$exitcode"
-      
-      - name: run cli
-        run: | 
-          gh pr list --json commits --jq '.[] | .commits[0].oid'
-          gh pr list --json commits --jq '.[] | .commits[-1].oid'
-        env:
-          GH_TOKEN: ${{ github.token }}
 
       - name: Running Scan Pull_request
         if: github.event_name == 'pull_request'
