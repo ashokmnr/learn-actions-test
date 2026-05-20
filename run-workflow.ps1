@@ -13,7 +13,7 @@ gh workflow run $Workflow `
 # Small delay to let GitHub register the run
 Start-Sleep -Seconds 5
 
-# Get the la***REMOVED*** run ID for this workflow & branch
+# Get the latest run ID for this workflow & branch
 $RunId = gh run list `
   --repo $Repo `
   --workflow $Workflow `

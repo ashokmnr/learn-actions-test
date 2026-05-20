@@ -18,7 +18,7 @@ permissions:
 jobs:
   GitLeaksScan:
     name: GitLeaksScan
-    runs-on: ubuntu-la***REMOVED***
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository ${{ github.repository }}
         uses: actions/checkout@v4
@@ -35,8 +35,8 @@ jobs:
         if: github.event_name == 'push'
         run: |
           set +e
-          docker pull ghcr.io/gitleaks/gitleaks:la***REMOVED***
-          docker run -v ${{ github.workspace }}:/gitrepoFiles ghcr.io/gitleaks/gitleaks:la***REMOVED*** git --redact -v --exit-code=2 -f=sarif -r=/gitrepoFiles/results.sarif -l=debug --log-opts=-1 /gitrepoFiles
+          docker pull ghcr.io/gitleaks/gitleaks:latest
+          docker run -v ${{ github.workspace }}:/gitrepoFiles ghcr.io/gitleaks/gitleaks:latest git --redact -v --exit-code=2 -f=sarif -r=/gitrepoFiles/results.sarif -l=debug --log-opts=-1 /gitrepoFiles
           exitcode="$?"
           echo "exitcode=$exitcode" >> $GITHUB_OUTPUT 
           python3 .github/summary_scripts/githubSummary.py -exit_code $exitcode -repo_url ${{ github.server_url }}/${{ github.repository }}
@@ -52,8 +52,8 @@ jobs:
           baseRef=$(gh pr list --json commits --jq '.[0].commits[0].oid')
           headRef=$(gh pr list --json commits --jq '.[0].commits | .[length-1].oid')
 
-          docker pull ghcr.io/gitleaks/gitleaks:la***REMOVED***
-          docker run -v ${{ github.workspace }}:/gitrepoFiles ghcr.io/gitleaks/gitleaks:la***REMOVED*** git --redact -v --exit-code=2 -f=sarif \
+          docker pull ghcr.io/gitleaks/gitleaks:latest
+          docker run -v ${{ github.workspace }}:/gitrepoFiles ghcr.io/gitleaks/gitleaks:latest git --redact -v --exit-code=2 -f=sarif \
             -r=/gitrepoFiles/results.sarif -l=debug --log-opts="--no-merges --first-parent $baseRef^..$headRef" /gitrepoFiles
           exitcode="$?"
           echo "exitcode=$exitcode" >> $GITHUB_OUTPUT 
